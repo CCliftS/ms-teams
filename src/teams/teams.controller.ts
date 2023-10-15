@@ -1,35 +1,33 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Controller, Get, Post, Body, Patch, Param, Delete} from '@nestjs/common';
 import { TeamsService } from './teams.service';
-import { CreateTeamDto } from './dto/create-team.dto';
-import { UpdateTeamDto } from './dto/update-team.dto';
+import { TeamsDTO } from './dto/teams.dto';
 
 @Controller()
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) {}
 
-  @MessagePattern('createTeam')
-  create(@Payload() createTeamDto: CreateTeamDto) {
-    return this.teamsService.create(createTeamDto);
+  @Post()
+  create(@Body() teamsDTO: TeamsDTO) {
+    return this.teamsService.create(teamsDTO);
   }
 
-  @MessagePattern('findAllTeams')
+  @Get()
   findAll() {
     return this.teamsService.findAll();
   }
 
-  @MessagePattern('findOneTeam')
-  findOne(@Payload() id: number) {
-    return this.teamsService.findOne(id);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.teamsService.findOne(+id);
   }
 
-  @MessagePattern('updateTeam')
-  update(@Payload() updateTeamDto: UpdateTeamDto) {
-    return this.teamsService.update(updateTeamDto.id, updateTeamDto);
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() teamsDTO: TeamsDTO) {
+    return this.teamsService.update(+id, teamsDTO);
   }
 
-  @MessagePattern('removeTeam')
-  remove(@Payload() id: number) {
-    return this.teamsService.remove(id);
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.teamsService.remove(+id);
   }
 }

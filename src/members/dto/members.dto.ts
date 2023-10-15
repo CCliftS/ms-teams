@@ -1,11 +1,11 @@
 import { IsNotEmpty, IsString} from "class-validator";
 
-export class TeamsDTO {
+export class MembersDTO {
     @IsNotEmpty()
     @IsString()
     name: string;
 
     @IsNotEmpty()
     @IsString()
-    member_name: string;
+    role: string;
 }
