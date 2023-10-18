@@ -3,9 +3,13 @@ import { IsNotEmpty, IsString} from "class-validator";
 export class MembersDTO {
     @IsNotEmpty()
     @IsString()
-    name: string;
+    email: string;
 
     @IsNotEmpty()
     @IsString()
     role: string;
+
+    @IsNotEmpty()
+    @IsString()
+    idTeams: string
 }

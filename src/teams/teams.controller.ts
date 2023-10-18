@@ -1,33 +1,36 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete} from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { TeamsDTO } from './dto/teams.dto';
+import { MembersDTO } from 'src/members/dto/members.dto';
+import { MembersService } from 'src/members/members.service';
 
-@Controller()
+
+@Controller('Teams')
 export class TeamsController {
-  constructor(private readonly teamsService: TeamsService) {}
+  constructor(private readonly teamsService: TeamsService, private readonly membersService: MembersService) {}
 
-  @Post()
-  create(@Body() teamsDTO: TeamsDTO) {
-    return this.teamsService.create(teamsDTO);
+  @Post('create')
+  async create(@Body() membersDTO: MembersDTO, teamsDTO: TeamsDTO) {
+    return this.teamsService.create(membersDTO,teamsDTO);
   }
 
-  @Get()
-  findAll() {
-    return this.teamsService.findAll();
-  }
-
-  @Get(':id')
+  @Get('id')
   findOne(@Param('id') id: string) {
-    return this.teamsService.findOne(+id);
+    return this.teamsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() teamsDTO: TeamsDTO) {
-    return this.teamsService.update(+id, teamsDTO);
+  @Patch('ChangeName')
+  updateName(@Param('name') name: string, @Body() teamsDTO: TeamsDTO) {
+    return this.teamsService.updateName(name, teamsDTO);
   }
 
-  @Delete(':id')
+  @Delete('id')
   remove(@Param('id') id: string) {
-    return this.teamsService.remove(+id);
+    return this.teamsService.remove(id);
+  }
+
+  @Post('memberTeam')
+  getMemberTeam(@Param('id') id:string){
+    return this.membersService.getMemberTeam(id);
   }
 }

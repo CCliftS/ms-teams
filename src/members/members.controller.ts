@@ -1,13 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { MembersDTO } from './dto/members.dto';
+import { TeamsDTO } from 'src/teams/dto/teams.dto';
 
-@Controller('members')
+@Controller('Members')
 export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
   @Post()
-  create(@Body() membersDTO: MembersDTO) {
+  async create(@Body() membersDTO: MembersDTO) {
     return this.membersService.create(membersDTO);
   }
 
@@ -16,18 +17,23 @@ export class MembersController {
     return this.membersService.findAll();
   }
 
-  @Get(':id')
+  @Get('id')
   findOne(@Param('id') id: string) {
-    return this.membersService.findOne(+id);
+    return this.membersService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() membersDTO: MembersDTO) {
-    return this.membersService.update(+id, membersDTO);
-  }
-
-  @Delete(':id')
+  @Delete('id')
   remove(@Param('id') id: string) {
-    return this.membersService.remove(+id);
+    return this.membersService.remove(id);
+  }
+
+  @Post('addteam')
+  addTeam(@Param('memberId') membersDTO: MembersDTO, @Param('teamsId') teamsDTO: TeamsDTO){
+    return this.membersService.addTeam(membersDTO,teamsDTO);
+  }
+
+  @Post('memberData')
+  getMemberData(@Param('email') email: string){
+    return this.membersService.getMemberData(email);
   }
 }
