@@ -19,7 +19,7 @@ export class TeamsService {
   async create({email, role}:MembersDTO, teamsDTO: TeamsDTO) {
     const createdTeam = new this.teamsModel(teamsDTO);
     const idTeams = createdTeam.id;
-    await this.membersService.create({email,role,idTeams});
+    await this.membersService.addTeam({email,role,idTeams});
     return createdTeam.save();
   }
 

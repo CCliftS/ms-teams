@@ -13,7 +13,7 @@ export class MembersService {
     ) {
     }
 
-  async create(membersDTO: MembersDTO): Promise<Members> {
+  async addTeam(membersDTO: MembersDTO): Promise<Members> {
     const createdMember = new this.membersModel(Members);
     return createdMember.save();
   }
@@ -22,16 +22,12 @@ export class MembersService {
     return this.membersModel.find().exec();
   }
 
-  findOne(id: string) {
-    return this.membersModel.findOne({ id: id});
+  findOneByEmail(email: string) {
+    return this.membersModel.findOne({ email: email});
   }
 
   remove(id: string) {
     return this.membersModel.deleteOne({id: id});
-  }
-
-  addTeam(membersDTO: MembersDTO, teamsDTO: TeamsDTO) {
-    throw new Error('Method not implemented.');
   }
 
   async getMemberData(email: string) {

@@ -8,8 +8,8 @@ export class MembersController {
   constructor(private readonly membersService: MembersService) {}
 
   @Post()
-  async create(@Body() membersDTO: MembersDTO) {
-    return this.membersService.create(membersDTO);
+  async addTeam(@Body() membersDTO: MembersDTO) {
+    return this.membersService.addTeam(membersDTO);
   }
 
   @Get()
@@ -17,19 +17,14 @@ export class MembersController {
     return this.membersService.findAll();
   }
 
-  @Get('id')
-  findOne(@Param('id') id: string) {
-    return this.membersService.findOne(id);
+  @Get('GetByEmail')
+  findOneByEmail(@Param('email') email: string) {
+    return this.membersService.findOneByEmail(email);
   }
 
   @Delete('id')
   remove(@Param('id') id: string) {
     return this.membersService.remove(id);
-  }
-
-  @Post('addteam')
-  addTeam(@Param('memberId') membersDTO: MembersDTO, @Param('teamsId') teamsDTO: TeamsDTO){
-    return this.membersService.addTeam(membersDTO,teamsDTO);
   }
 
   @Post('memberData')
