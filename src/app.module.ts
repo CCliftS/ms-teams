@@ -3,8 +3,6 @@ import { TeamsModule } from './teams/teams.module';
 import { MembersModule } from './members/members.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { TeamsController } from './teams/teams.controller';
-import { TeamsService } from './teams/teams.service';
 
 
 @Module({
@@ -14,7 +12,7 @@ import { TeamsService } from './teams/teams.service';
     TeamsModule,
     MembersModule,
   ],
-  controllers: [TeamsController],
-  providers: [TeamsService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
