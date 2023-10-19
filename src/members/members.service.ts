@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MembersDTO } from './dto/members.dto';
-import { members } from './schema/member.schema';
+import { Members } from './schema/member.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose'
 import { TeamsDTO } from 'src/teams/dto/teams.dto';
@@ -8,17 +8,17 @@ import { TeamsDTO } from 'src/teams/dto/teams.dto';
 @Injectable()
 export class MembersService {
   
-  constructor(@InjectModel(members.name)
-    private membersModel: Model<members>,
+  constructor(@InjectModel(Members.name)
+    private membersModel: Model<Members>,
     ) {
     }
 
-  async create(membersDTO: MembersDTO): Promise<members> {
-    const createdMember = new this.membersModel(members);
+  async create(membersDTO: MembersDTO): Promise<Members> {
+    const createdMember = new this.membersModel(Members);
     return createdMember.save();
   }
 
-  async findAll(): Promise<members[]> {
+  async findAll(): Promise<Members[]> {
     return this.membersModel.find().exec();
   }
 

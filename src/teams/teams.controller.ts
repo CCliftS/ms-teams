@@ -7,12 +7,13 @@ import { MembersService } from 'src/members/members.service';
 
 @Controller('Teams')
 export class TeamsController {
-  constructor(private readonly teamsService: TeamsService, private readonly membersService: MembersService) {}
-
+  constructor(private readonly teamsService: TeamsService, 
+    /*private readonly membersService: MembersService*/) {}
+/*
   @Post('create')
   async create(@Body() membersDTO: MembersDTO, teamsDTO: TeamsDTO) {
     return this.teamsService.create(membersDTO,teamsDTO);
-  }
+  }*/
 
   @Get('id')
   findOne(@Param('id') id: string) {
@@ -28,9 +29,9 @@ export class TeamsController {
   remove(@Param('id') id: string) {
     return this.teamsService.remove(id);
   }
-
+/*
   @Post('memberTeam')
   getMemberTeam(@Param('id') id:string){
     return this.membersService.getMemberTeam(id);
-  }
+  }*/
 }

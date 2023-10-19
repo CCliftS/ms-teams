@@ -9,12 +9,12 @@ import { TeamsService } from './teams/teams.service';
 
 @Module({
   imports: [
-    TeamsModule,
-    MembersModule, // Importar MembersModule
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGODB_URI),
+    TeamsModule,
+    MembersModule,
   ],
   controllers: [TeamsController],
   providers: [TeamsService],
 })
-export class AppModule { }
+export class AppModule {}
