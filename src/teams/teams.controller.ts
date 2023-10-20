@@ -25,4 +25,10 @@ export class TeamsController {
     const teams = await this.teamsService.findTeamsByMemberIds(memberIds);
     return teams;
   }
+
+  @Post('findTeamById')
+  findTeamById(@Body('id') id:string){
+    return this.teamsService.findTeamById(id);
+  }
+
 }

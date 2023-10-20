@@ -33,4 +33,8 @@ export class TeamsService {
   remove(id: string) {
     return this.teamsModel.deleteOne({ id: id });
   }
+
+  async findTeamById(id: string) {
+    return this.teamsModel.findOne({ id: id });
+}
 }

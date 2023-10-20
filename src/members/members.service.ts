@@ -44,4 +44,8 @@ export class MembersService {
   async getMemberTeam(id: string) {
     return this.membersModel.find({ idTeam: id });
   }
+
+  async findTeamById(id: string) {
+    return this.teamsService.findTeamById(id);
+  }
 }
