@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsString} from "class-validator";
+import { IsEmail, IsNotEmpty, IsString } from "class-validator";
 
 export class MembersDTO {
     @IsNotEmpty()
-    @IsString()
+    @IsEmail()
     email: string;
 
     @IsNotEmpty()
@@ -11,5 +11,5 @@ export class MembersDTO {
 
     @IsNotEmpty()
     @IsString()
-    idTeams: string
+    idTeam: string
 }

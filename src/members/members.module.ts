@@ -17,4 +17,4 @@ import { Members, MembersSchema } from './schema/member.schema';
   controllers: [MembersController],
   exports: [MembersService], // Agrega MembersService a los exports
 })
-export class MembersModule {}
+export class MembersModule { }

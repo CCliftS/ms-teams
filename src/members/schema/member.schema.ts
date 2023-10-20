@@ -7,12 +7,12 @@ export type MembersDocument = HydratedDocument<Members>;
 
 export class Members {
     @Prop({ required: true })
-    name: string;
+    email: string;
 
     @Prop({ required: true })
     role: string;
 
-    @Prop({ required:true })
+    @Prop({ required: true })
     idTeam: string;
 }
 export const MembersSchema = SchemaFactory.createForClass(Members);

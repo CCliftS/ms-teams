@@ -1,15 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { MembersDTO } from './dto/members.dto';
-import { TeamsDTO } from 'src/teams/dto/teams.dto';
 
-@Controller('Members')
+@Controller('Member')
 export class MembersController {
-  constructor(private readonly membersService: MembersService) {}
+  constructor(private readonly membersService: MembersService) { }
 
-  @Post()
-  async addTeam(@Body() membersDTO: MembersDTO) {
-    return this.membersService.addTeam(membersDTO);
+  @Post('addMemberTeam')
+  async addMemberTeam(@Body() membersDTO: MembersDTO) {
+    return this.membersService.addMemberTeam(membersDTO);
   }
 
   @Get()
@@ -28,7 +27,7 @@ export class MembersController {
   }
 
   @Post('memberData')
-  getMemberData(@Param('email') email: string){
+  getMemberData(@Param('email') email: string) {
     return this.membersService.getMemberData(email);
   }
 }

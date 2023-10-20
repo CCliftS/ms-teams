@@ -8,6 +8,6 @@ export type TeamsDocument = HydratedDocument<Teams>;
 
 export class Teams {
     @Prop({ required: true })
-    name: string;
+    nameTeam: string;
 }
 export const TeamsSchema = SchemaFactory.createForClass(Teams);
