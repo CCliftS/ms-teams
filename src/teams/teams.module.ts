@@ -3,7 +3,6 @@ import { TeamsService } from './teams.service';
 import { TeamsController } from './teams.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Teams, TeamsSchema } from './schema/team.schema';
-import { MembersModule } from 'src/members/members.module';
 
 @Module({
   imports: [
@@ -12,10 +11,10 @@ import { MembersModule } from 'src/members/members.module';
         name: Teams.name,
         schema: TeamsSchema,
       },
-    ]),
-    MembersModule,
+    ])
   ],
   controllers: [TeamsController],
   providers: [TeamsService],
+  exports: [TeamsService],
 })
 export class TeamsModule { }

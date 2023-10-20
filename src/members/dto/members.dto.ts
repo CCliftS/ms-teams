@@ -12,4 +12,9 @@ export class MembersDTO {
     @IsNotEmpty()
     @IsString()
     idTeam: string
+
+    @IsNotEmpty()
+    @IsString()
+    nameTeam: string
+
 }

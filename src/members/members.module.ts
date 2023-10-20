@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { MembersController } from './members.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Members, MembersSchema } from './schema/member.schema';
+import { TeamsModule } from 'src/teams/teams.module';
 
 @Module({
   imports: [
@@ -11,7 +12,9 @@ import { Members, MembersSchema } from './schema/member.schema';
         name: Members.name,
         schema: MembersSchema,
       },
-    ]),
+    ]
+    ),
+    TeamsModule
   ],
   providers: [MembersService],
   controllers: [MembersController],

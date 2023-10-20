@@ -21,8 +21,9 @@ export class TeamsService {
     return this.teamsModel.find().exec();
   }
 
-  findOne(id: string) {
-    return this.teamsModel.find({ id: id });
+
+  async findTeamsByMemberIds(memberIds: string[]) {
+    return await this.teamsModel.find({ members: { $in: memberIds } });
   }
   /*
     updateName(name: string, teamsDTO: TeamsDTO) {

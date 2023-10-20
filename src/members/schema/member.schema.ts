@@ -14,5 +14,8 @@ export class Members {
 
     @Prop({ required: true })
     idTeam: string;
+
+    @Prop({ required: true })
+    nameTeam: string;
 }
 export const MembersSchema = SchemaFactory.createForClass(Members);

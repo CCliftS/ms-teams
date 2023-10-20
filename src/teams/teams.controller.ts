@@ -15,25 +15,14 @@ export class TeamsController {
     return this.teamsService.createTeam(teamDTO);
   }
 
-  @Get('id')
-  findOne(@Param('id') id: string) {
-    return this.teamsService.findOne(id);
-  }
-  /*
-    @Patch('ChangeName')
-    updateName(@Param('name') name: string, @Body() teamsDTO: TeamsDTO) {
-      return this.teamsService.updateName(name, teamsDTO);
-    }
-  */
   @Delete('id')
   remove(@Param('id') id: string) {
     return this.teamsService.remove(id);
   }
-
-  /*
-  @Post('memberTeam')
-  getMemberTeam(@Param('id') id: string) {
-    return this.membersService.getMemberTeam(id);
+  @Post()
+  async findTeamsByMemberIds(@Body() body: { memberIds: string[] }) {
+    const { memberIds } = body;
+    const teams = await this.teamsService.findTeamsByMemberIds(memberIds);
+    return teams;
   }
-  */
 }
