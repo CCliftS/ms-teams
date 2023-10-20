@@ -35,6 +35,6 @@ export class TeamsService {
   }
 
   async findTeamById(id: string) {
-    return this.teamsModel.findOne({ id: id });
+    return this.teamsModel.findOne({ _id: id });
 }
 }
