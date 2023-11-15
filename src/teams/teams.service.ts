@@ -17,21 +17,22 @@ export class TeamsService {
     const team = new this.teamsModel(teamsDTO);
     return await team.save();
   }
-  findAll():Promise<Teams[]> {
-    return this.teamsModel.find().exec();
+
+  async findAll():Promise<Teams[]> {
+    return await this.teamsModel.find().exec();
   }
 
 
   async findTeamsByMemberIds(memberIds: string[]): Promise<Teams[]> {
     return await this.teamsModel.find({ members: { $in: memberIds } });
   }
-  /*
-    updateName(name: string, teamsDTO: TeamsDTO) {
-      return this.teamsModel.name.replace(teamsDTO, name);
-    }
-  */
-  remove(id: string): Promise<Teams> {
-    return this.teamsModel.findByIdAndDelete({ id: id });
+  
+  async updateName(id: string, name: string) {
+    return this.teamsModel.findByIdAndUpdate({ _id: id }, { name: name });
+  }
+  
+  async remove(id: string): Promise<Teams> {
+    return await this.teamsModel.findByIdAndDelete({ _id: id });
   }
 
   async findTeamById(id: string): Promise<Teams> {
