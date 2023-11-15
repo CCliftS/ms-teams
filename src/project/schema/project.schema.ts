@@ -8,7 +8,7 @@ export class Project {
     name: string;
 
     @Prop({ required: true })
-    idUser: string;
+    idOwner: string;
 
     @Prop({ required: true })
     teams: string[];

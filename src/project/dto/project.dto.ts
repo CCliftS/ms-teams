@@ -7,7 +7,7 @@ export class ProjectDTO {
     
     @IsNotEmpty()
     @IsString()
-    idUser: string;
+    idOwner: string;
 
     @IsNotEmpty() 
     @IsString()
