@@ -4,8 +4,4 @@ export class TeamsDTO {
     @IsNotEmpty()
     @IsString()
     nameTeam: string;
-
-    @IsNotEmpty()
-    @IsString()
-    idPoject: string;
 }
