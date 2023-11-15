@@ -29,7 +29,7 @@ export class MembersService {
   }
 
   async updateMail(newEmail:string,email: string) {
-    return this.membersModel.findOneAndUpdate({email:email},{email:newEmail});
+    return this.membersModel.updateMany({email:email},{email:newEmail}, {new: true});
   }
 
   async remove(id: string): Promise<Members> {

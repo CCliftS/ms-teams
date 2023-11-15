@@ -23,7 +23,7 @@ export class MembersController {
     return this.membersService.findId(id);
   }
 
-  @Patch('updateMail')
+  @Post('updateMail')
   updateMail(@Body('newEmail') newEmail: string, @Body('email') email: string) {
     return this.membersService.updateMail(newEmail, email);
   }
@@ -42,6 +42,7 @@ export class MembersController {
   findTeamById(@Body('id') id: string) {
     return this.membersService.findTeamById(id);
   }
+  
   @Get('getMemberTeam/:idTeam')
   getMemberTeamId(@Param('idTeam') idTeam: string) {
     return this.membersService.getMemberTeamId(idTeam);
