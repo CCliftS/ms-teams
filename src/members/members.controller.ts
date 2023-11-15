@@ -34,7 +34,11 @@ export class MembersController {
   }
 
   @Post('findTeamById')
-  findTeamById(@Body('id') id:string){
+  findTeamById(@Body('id') id: string) {
     return this.membersService.findTeamById(id);
+  }
+  @Get('getMemberTeam/:idTeam')
+  getMemberTeamId(@Param('idTeam') idTeam: string) {
+    return this.membersService.getMemberTeamId(idTeam);
   }
 }

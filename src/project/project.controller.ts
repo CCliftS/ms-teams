@@ -4,9 +4,9 @@ import { ProjectService } from './project.service';
 import { ProjectDTO } from './dto/project.dto';
 
 
-@Controller()
+@Controller('Project')
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) {}
+  constructor(private readonly projectService: ProjectService) { }
 
   @MessagePattern('createProject')
   create(@Payload() projectDTO: ProjectDTO) {
@@ -24,7 +24,7 @@ export class ProjectController {
   }
 
   @MessagePattern('updateProject')
-  update(@Payload() id:string,projectDTO: ProjectDTO) {
+  update(@Payload() id: string, projectDTO: ProjectDTO) {
     return this.projectService.update(id, projectDTO);
   }
 

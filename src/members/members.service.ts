@@ -33,11 +33,10 @@ export class MembersService {
   }
 
 
-  async getMemberData(email: string){
+  async getMemberData(email: string) {
     const members = await this.membersModel.find({ email: email });
     const teamsName = members.map(members => members.nameTeam);
     const teamsId = members.map(members => members.idTeam);
-    console.log(teamsName, teamsId);
     return { teamsName, teamsId };
   }
 
@@ -47,5 +46,16 @@ export class MembersService {
 
   async findTeamById(id: string): Promise<Teams> {
     return this.teamsService.findTeamById(id);
+  }
+
+  async findMemberById(id: string): Promise<Members> {
+    return this.membersModel.findOne({ _id: id });
+  }
+  async getMemberTeamId(idTeam: string) {
+
+    const member = await this.membersModel.find({ idTeam: idTeam });
+    const nameTeam = member.map(member => member.nameTeam);
+    const TeamsEmails = member.map(member => member.email);
+    return { nameTeam, TeamsEmails };
   }
 }
