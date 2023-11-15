@@ -11,6 +11,6 @@ export class Teams {
     nameTeam: string;
 
     @Prop({ required: true })
-    idPoject: string;
+    idProject: string;
 }
 export const TeamsSchema = SchemaFactory.createForClass(Teams);
