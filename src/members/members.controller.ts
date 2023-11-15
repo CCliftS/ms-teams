@@ -8,14 +8,14 @@ export class MembersController {
   constructor(private readonly membersService: MembersService,
   ) { }
 
-  @Post('addMemberTeam')
-  async addMemberTeam(@Body() membersDTO: MembersDTO) {
-    return this.membersService.addMemberTeam(membersDTO);
-  }
-
   @Get()
   findAll() {
     return this.membersService.findAll();
+  }
+  
+  @Get('getMemberTeam/:idTeam')
+  getMemberTeamId(@Param('idTeam') idTeam: string) {
+    return this.membersService.getMemberTeamId(idTeam);
   }
 
   @Post('findId')
@@ -27,10 +27,10 @@ export class MembersController {
   updateMail(@Body('newEmail') newEmail: string, @Body('email') email: string) {
     return this.membersService.updateMail(newEmail, email);
   }
-
-  @Delete('id')
-  remove(@Param('id') id: string) {
-    return this.membersService.remove(id);
+  
+  @Post('addMemberTeam')
+  async addMemberTeam(@Body() membersDTO: MembersDTO) {
+    return this.membersService.addMemberTeam(membersDTO);
   }
 
   @Post('memberData')
@@ -38,13 +38,18 @@ export class MembersController {
     return this.membersService.getMemberData(email);
   }
 
+  @Post('findMemberById')
+  findMemberById(@Body('id') id: string) {
+    return this.membersService.findMemberById(id);
+  }
+
   @Post('findTeamById')
   findTeamById(@Body('id') id: string) {
     return this.membersService.findTeamById(id);
   }
   
-  @Get('getMemberTeam/:idTeam')
-  getMemberTeamId(@Param('idTeam') idTeam: string) {
-    return this.membersService.getMemberTeamId(idTeam);
+  @Delete('id')
+  remove(@Param('id') id: string) {
+    return this.membersService.remove(id);
   }
 }

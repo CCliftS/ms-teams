@@ -36,6 +36,10 @@ export class MembersService {
     return await this.membersModel.findByIdAndRemove({ id: id });
   }
 
+  async updateRole(id: string, role: string) {
+    return await this.membersModel.findByIdAndUpdate(id, { role: role }, { new: true });
+  }
+
   async getMemberData(email: string) {
     const members = await this.membersModel.find({ email: email });
     const teamsName = members.map(members => members.nameTeam);
