@@ -23,6 +23,11 @@ export class MembersController {
     return this.membersService.findId(id);
   }
 
+  @Patch('updateMail')
+  updateMail(@Body('newEmail') newEmail: string, @Body('email') email: string) {
+    return this.membersService.updateMail(newEmail, email);
+  }
+
   @Delete('id')
   remove(@Param('id') id: string) {
     return this.membersService.remove(id);

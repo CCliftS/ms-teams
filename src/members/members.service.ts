@@ -28,10 +28,13 @@ export class MembersService {
     return this.membersModel.findOne({ idTeam: idTeam });
   }
 
-  remove(id: string): Promise<Members> {
-    return this.membersModel.findByIdAndRemove({ id: id });
+  async updateMail(newEmail:string,email: string) {
+    return this.membersModel.findOneAndUpdate({email:email},{email:newEmail});
   }
 
+  async remove(id: string): Promise<Members> {
+    return await this.membersModel.findByIdAndRemove({ id: id });
+  }
 
   async getMemberData(email: string) {
     const members = await this.membersModel.find({ email: email });
@@ -51,8 +54,8 @@ export class MembersService {
   async findMemberById(id: string): Promise<Members> {
     return this.membersModel.findOne({ _id: id });
   }
-  async getMemberTeamId(idTeam: string) {
 
+  async getMemberTeamId(idTeam: string) {
     const member = await this.membersModel.find({ idTeam: idTeam });
     const nameTeam = member.map(member => member.nameTeam);
     const TeamsEmails = member.map(member => member.email);
