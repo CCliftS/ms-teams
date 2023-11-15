@@ -11,8 +11,8 @@ export class ProjectService {
     @InjectModel(Project.name) private projectModel: Model<Project>,
     private readonly teamsService: TeamsService
   ) { }
-  
-  create(projectDTO: ProjectDTO):Promise<Project> {
+
+  async create(projectDTO: ProjectDTO): Promise<Project> {
     const project = new this.projectModel(projectDTO);
     return project.save();
   }

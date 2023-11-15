@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ProjectService } from './project.service';
 import { ProjectDTO } from './dto/project.dto';
@@ -8,8 +8,8 @@ import { ProjectDTO } from './dto/project.dto';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) { }
 
-  @MessagePattern('createProject')
-  create(@Payload() projectDTO: ProjectDTO) {
+  @Post('createProject')
+  async create(@Body() projectDTO: ProjectDTO) {
     return this.projectService.create(projectDTO);
   }
 

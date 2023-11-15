@@ -4,12 +4,12 @@ export class ProjectDTO {
     @IsNotEmpty()
     @IsString()
     nameProject: string;
-    
+
     @IsNotEmpty()
     @IsString()
     idOwner: string;
 
-    @IsNotEmpty() 
+    @IsNotEmpty()
     @IsString()
     teams: string[];
 }

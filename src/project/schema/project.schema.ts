@@ -5,7 +5,7 @@ export type ProjectDocument = HydratedDocument<Project>;
 
 export class Project {
     @Prop({ required: true })
-    name: string;
+    nameProject: string;
 
     @Prop({ required: true })
     idOwner: string;
