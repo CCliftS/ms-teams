@@ -10,6 +10,5 @@ export class ProjectDTO {
     idOwner: string;
 
     @IsNotEmpty()
-    @IsString()
     teams: string[];
 }
