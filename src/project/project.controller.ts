@@ -19,17 +19,17 @@ export class ProjectController {
   }
 
   @MessagePattern('findOneProject')
-  findOne(@Payload() id: number) {
+  findOne(@Payload() id: string) {
     return this.projectService.findOne(id);
   }
 
   @MessagePattern('updateProject')
-  update(@Payload() id:number,projectDTO: ProjectDTO) {
+  update(@Payload() id:string,projectDTO: ProjectDTO) {
     return this.projectService.update(id, projectDTO);
   }
 
   @MessagePattern('removeProject')
-  remove(@Payload() id: number) {
+  remove(@Payload() id: string) {
     return this.projectService.remove(id);
   }
 }

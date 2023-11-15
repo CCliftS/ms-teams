@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectController } from './project.controller';
-import { TeamsService } from 'src/teams/teams.service';
 import { Project, ProjectSchema } from './schema/project.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TeamsModule } from 'src/teams/teams.module';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       },
     ]
     ),
-    TeamsService
+    TeamsModule
   ],
   controllers: [ProjectController],
   providers: [ProjectService],
