@@ -4,12 +4,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Project } from './schema/project.schema';
 import { Model } from 'mongoose';
 import { TeamsService } from 'src/teams/teams.service';
+import { MembersService } from 'src/members/members.service';
 
 @Injectable()
 export class ProjectService {
   constructor(
     @InjectModel(Project.name) private projectModel: Model<Project>,
-    private readonly teamsService: TeamsService
+    private readonly teamsService: TeamsService,
+    private readonly membersService: MembersService
   ) { }
 
   async create(projectDTO: ProjectDTO): Promise<Project> {
@@ -54,4 +56,15 @@ export class ProjectService {
     const teamProjects = project.map(project => project.teams);
     return { nameProjects, idProjects, teamProjects };
   }
+
+  /* GET de los proyectos asociados al usuario (No owner) */
+
+  async findAllParticipatedProjects(idUser: string): Promise<Project[]> {
+    const member = await this.membersService.findId(idUser);
+    const teamsData = await this.membersService.getMemberData(member.email);
+    const teamsMember = teamsData.teamsId;
+    const projects = await this.projectModel.find({ teams: { $in: teamsMember } });
+    return projects;
+  }
+
 }

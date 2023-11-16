@@ -40,4 +40,10 @@ export class ProjectController {
     return this.projectService.findProjectOwner(idOwner);
 
   }
+
+  /* GET de los proyectos asociados al usuario (No owner) */
+  @Get('findAllParticipatedProjects:idMember')
+    findAllParticipatedProjects(@Param('idMember') idMember: string){
+      return this.projectService.findAllParticipatedProjects(idMember);
+    }
 }

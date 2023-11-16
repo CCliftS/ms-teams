@@ -4,6 +4,7 @@ import { ProjectController } from './project.controller';
 import { Project, ProjectSchema } from './schema/project.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TeamsModule } from 'src/teams/teams.module';
+import { MembersModule } from 'src/members/members.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { TeamsModule } from 'src/teams/teams.module';
       },
     ]
     ),
-    TeamsModule
+    TeamsModule,
+    MembersModule
   ],
   controllers: [ProjectController],
   providers: [ProjectService],
