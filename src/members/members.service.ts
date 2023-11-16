@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { MembersDTO } from './dto/members.dto';
 import { Members } from './schema/member.schema';
 import { InjectModel } from '@nestjs/mongoose';
@@ -6,7 +6,6 @@ import { Model } from 'mongoose'
 import { TeamsService } from 'src/teams/teams.service';
 import { Teams } from 'src/teams/schema/team.schema';
 import axios from 'axios';
-import { mapTo } from 'rxjs';
 
 const communicateWithUser = async (email: string) => {
   try {
@@ -34,8 +33,10 @@ export class MembersService {
 
     if (communicateWithUser && !mm.includes(membersDTO.email)) {
       const member = new this.membersModel(membersDTO);
-      console.log(Members, teamMembers);
       return await member.save();
+    }
+    else{
+      throw new HttpException('MEMBER ALREADY ON THE TEAM', HttpStatus.BAD_REQUEST);
     }
   }
 
