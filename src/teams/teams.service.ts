@@ -31,10 +31,8 @@ export class TeamsService {
     const team = await this.teamsModel.findById({ _id: id });
     
     if (!team) {
-      console.log("ENTRA");
       throw new NotFoundException(`Team with ID ${id} not found`);
     }
-    console.log("NO ENTRA")
     team.nameTeam = newName;
     await team.save();
 
