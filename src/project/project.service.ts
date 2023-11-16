@@ -18,8 +18,8 @@ export class ProjectService {
     return project.save();
   }
 
-  addTeam(id: string, idTeam: string): Promise<Project> {
-    return this.projectModel.findByIdAndUpdate(id, { $push: { teams: idTeam } }, { new: true }).exec();
+  async addTeam(id: string, idTeam: string): Promise<Project> {
+    return await this.projectModel.findByIdAndUpdate(id, { $push: { teams: idTeam } }, { new: true }).exec();
   }
 
   add(id: string, idMember: string): Promise<Project> {

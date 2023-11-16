@@ -27,7 +27,9 @@ export class MembersService {
   ) { }
 
   async addMemberTeam(membersDTO: MembersDTO): Promise<Members> {
-    if(communicateWithUser(membersDTO.email)){
+    const teamMembers = await this.getMemberTeam(membersDTO.idTeam);
+    
+    if(communicateWithUser && !teamMembers.includes( await this.findMemberByEmail(membersDTO.email))){
       const member = new this.membersModel(membersDTO);
       return await member.save();
     }
@@ -41,8 +43,8 @@ export class MembersService {
     return this.membersModel.findOne({ idTeam: idTeam });
   }
 
-  async updateMail(newEmail:string,email: string) {
-    return this.membersModel.updateMany({email:email},{email:newEmail}, {new: true});
+  async updateMail(newEmail: string, email: string) {
+    return this.membersModel.updateMany({ email: email }, { email: newEmail }, { new: true });
   }
 
   async remove(id: string): Promise<Members> {
@@ -68,7 +70,7 @@ export class MembersService {
     return this.teamsService.findTeamById(id);
   }
 
-  async findMemberById(id: string): Promise<Members> {
+  async findMemberByEmail(id: string): Promise<Members> {
     return this.membersModel.findOne({ _id: id });
   }
 
@@ -78,4 +80,5 @@ export class MembersService {
     const TeamsEmails = member.map(member => member.email);
     return { nameTeam, TeamsEmails };
   }
+
 }

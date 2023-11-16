@@ -38,9 +38,9 @@ export class MembersController {
     return this.membersService.getMemberData(email);
   }
 
-  @Post('findMemberById')
-  findMemberById(@Body('id') id: string) {
-    return this.membersService.findMemberById(id);
+  @Get('findMemberByEmail/:email')
+  findMemberById(@Param('email') email: string) {
+    return this.membersService.findMemberByEmail(email);
   }
 
   @Post('findTeamById')
