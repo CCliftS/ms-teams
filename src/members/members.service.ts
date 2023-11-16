@@ -6,14 +6,15 @@ import { Model } from 'mongoose'
 import { TeamsService } from 'src/teams/teams.service';
 import { Teams } from 'src/teams/schema/team.schema';
 import axios from 'axios';
+import { mapTo } from 'rxjs';
 
-const communicateWithUser = async ( email : string) => {
+const communicateWithUser = async (email: string) => {
   try {
-      const response =  axios.post(`${process.env.MS_USER}/user/getByMail`, {
-          email
-      });
+    const response = axios.post(`${process.env.MS_USER}/user/getByMail`, {
+      email
+    });
   } catch (error) {
-      console.log(error);
+    console.log(error);
   }
 };
 
@@ -27,10 +28,13 @@ export class MembersService {
   ) { }
 
   async addMemberTeam(membersDTO: MembersDTO): Promise<Members> {
-    const teamMembers = await this.getMemberTeam(membersDTO.idTeam);
-    
-    if(communicateWithUser && !teamMembers.includes( await this.findMemberByEmail(membersDTO.email))){
+
+    const teamMembers = await this.getMemberTeamId(membersDTO.idTeam);
+    const mm = teamMembers.TeamsEmails;
+
+    if (communicateWithUser && !mm.includes(membersDTO.email)) {
       const member = new this.membersModel(membersDTO);
+      console.log(Members, teamMembers);
       return await member.save();
     }
   }
@@ -70,8 +74,8 @@ export class MembersService {
     return this.teamsService.findTeamById(id);
   }
 
-  async findMemberByEmail(id: string): Promise<Members> {
-    return this.membersModel.findOne({ _id: id });
+  async findMemberByEmail(email: string) {
+    return this.membersModel.findOne({ email: email });
   }
 
   async getMemberTeamId(idTeam: string) {

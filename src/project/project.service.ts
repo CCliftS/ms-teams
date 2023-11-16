@@ -19,7 +19,8 @@ export class ProjectService {
   }
 
   async addTeam(id: string, idTeam: string): Promise<Project> {
-    if(this.teamsService.findTeamById(idTeam)){
+    const team = this.teamsService.findTeamById(idTeam)
+    if (!team) {
       return await this.projectModel.findByIdAndUpdate(id, { $push: { teams: idTeam } }, { new: true }).exec();
     }
   }
