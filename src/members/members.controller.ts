@@ -12,7 +12,7 @@ export class MembersController {
   findAll() {
     return this.membersService.findAll();
   }
-  
+
   @Get('getMemberTeam/:idTeam')
   getMemberTeamId(@Param('idTeam') idTeam: string) {
     return this.membersService.getMemberTeamId(idTeam);
@@ -27,7 +27,7 @@ export class MembersController {
   updateMail(@Body('newEmail') newEmail: string, @Body('email') email: string) {
     return this.membersService.updateMail(newEmail, email);
   }
-  
+
   @Post('addMemberTeam')
   async addMemberTeam(@Body() membersDTO: MembersDTO) {
     return this.membersService.addMemberTeam(membersDTO);
@@ -38,7 +38,7 @@ export class MembersController {
     return this.membersService.getMemberData(email);
   }
 
-  @Get('findMemberByEmail/:email')
+  @Get('findMemberByEmail/:email/:idTeam')
   findMemberById(@Param('email') email: string, @Param('idTeam') idTeam: string) {
     return this.membersService.findMemberByEmail(email, idTeam);
   }
@@ -47,7 +47,7 @@ export class MembersController {
   findTeamById(@Body('id') id: string) {
     return this.membersService.findTeamById(id);
   }
-  
+
   @Delete('id')
   remove(@Param('id') id: string) {
     return this.membersService.remove(id);

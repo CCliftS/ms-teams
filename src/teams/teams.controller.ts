@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { TeamsDTO } from './dto/teams.dto';
 import { MembersDTO } from 'src/members/dto/members.dto';
@@ -27,8 +27,12 @@ export class TeamsController {
   }
 
   @Post('findTeamById')
-  findTeamById(@Body('id') id:string){
+  findTeamById(@Body('id') id: string) {
     return this.teamsService.findTeamById(id);
+  }
+  @Post('updateName')
+  updateName(@Body('newName') newName: string, @Body('id') id: string) {
+    return this.teamsService.updateName(newName, id);
   }
 
 }
