@@ -44,4 +44,14 @@ export class ProjectService {
   async remove(id: string): Promise<Project> {
     return await this.projectModel.findByIdAndRemove(id).exec();
   }
+
+  /* Aqui pido los projects del Owner*/
+
+  async findProjectOwner(idOwner: string) {
+    const project = await this.projectModel.find({ idOwner: idOwner });
+    const nameProjects = project.map(project => project.nameProject);
+    const idProjects = project.map(project => project._id);
+    const teamProjects = project.map(project => project.teams);
+    return { nameProjects, idProjects, teamProjects };
+  }
 }

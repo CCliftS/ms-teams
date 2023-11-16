@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { ProjectService } from './project.service';
 import { ProjectDTO } from './dto/project.dto';
@@ -31,5 +31,13 @@ export class ProjectController {
   @MessagePattern('removeProject')
   remove(@Payload() id: string) {
     return this.projectService.remove(id);
+  }
+
+  /* Aqui pido los projects del Owner*/
+
+  @Get('findProjectOwner/:idOwner')
+  findProjectOwner(@Param('idOwner') idOwner: string) {
+    return this.projectService.findProjectOwner(idOwner);
+
   }
 }
