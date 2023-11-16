@@ -35,7 +35,7 @@ export class MembersService {
       const member = new this.membersModel(membersDTO);
       return await member.save();
     }
-    else{
+    else {
       throw new HttpException('MEMBER ALREADY ON THE TEAM', HttpStatus.BAD_REQUEST);
     }
   }
@@ -60,9 +60,9 @@ export class MembersService {
     return await this.membersModel.findByIdAndUpdate(id, { role: role }, { new: true });
   }
 
-  async updateTeam(newName: string,idTeam: string) {
+  async updateTeam(newName: string, idTeam: string) {
     this.teamsService.updateName(newName, idTeam);
-    return await this.membersModel.updateMany({ idTeam: idTeam }, { nameTeam: newName }, { new: true});
+    return await this.membersModel.updateMany({ idTeam: idTeam }, { nameTeam: newName }, { new: true });
   }
 
   async getMemberData(email: string) {

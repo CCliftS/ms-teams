@@ -42,8 +42,8 @@ export class ProjectController {
   }
 
   /* GET de los proyectos asociados al usuario (No owner) */
-  @Get('findAllParticipatedProjects:idMember')
-    findAllParticipatedProjects(@Param('idMember') idMember: string){
-      return this.projectService.findAllParticipatedProjects(idMember);
-    }
+  @Get('findAllParticipatedProjects/:email')
+  findAllParticipatedProjects(@Param('email') email: string) {
+    return this.projectService.findAllParticipatedProjects(email);
+  }
 }

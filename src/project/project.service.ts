@@ -59,12 +59,13 @@ export class ProjectService {
 
   /* GET de los proyectos asociados al usuario (No owner) */
 
-  async findAllParticipatedProjects(idUser: string): Promise<Project[]> {
-    const member = await this.membersService.findId(idUser);
-    const teamsData = await this.membersService.getMemberData(member.email);
+  async findAllParticipatedProjects(email: string) {
+    const teamsData = await this.membersService.getMemberData(email);
     const teamsMember = teamsData.teamsId;
     const projects = await this.projectModel.find({ teams: { $in: teamsMember } });
-    return projects;
+    const participesProjects = projects.map(projects => projects.nameProject);
+    const idParticipesProjects = projects.map(projects => projects._id);
+    return { participesProjects, idParticipesProjects };
   }
 
 }
