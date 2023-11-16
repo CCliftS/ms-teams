@@ -25,23 +25,23 @@ export class ProjectService {
     }
   }
 
-  add(id: string, idMember: string): Promise<Project> {
-    return this.projectModel.findByIdAndUpdate(id, { $push: { members: idMember } }, { new: true }).exec();
+  async add(id: string, idMember: string): Promise<Project> {
+    return await this.projectModel.findByIdAndUpdate(id, { $push: { members: idMember } }, { new: true }).exec();
   }
 
-  findAll(): Promise<Project[]> {
-    return this.projectModel.find().exec();
+  async findAll(): Promise<Project[]> {
+    return await this.projectModel.find().exec();
   }
 
-  findOne(id: string): Promise<Project> {
-    return this.projectModel.findOne({ _id: id }).exec();
+  async findOne(id: string): Promise<Project> {
+    return await this.projectModel.findOne({ _id: id }).exec();
   }
 
-  update(id: string, projectDTO: ProjectDTO): Promise<Project> {
-    return this.projectModel.findByIdAndUpdate(id, projectDTO, { new: true }).exec();
+  async update(id: string, projectDTO: ProjectDTO): Promise<Project> {
+    return await this.projectModel.findByIdAndUpdate(id, projectDTO, { new: true }).exec();
   }
 
-  remove(id: string): Promise<Project> {
-    return this.projectModel.findByIdAndRemove(id).exec();
+  async remove(id: string): Promise<Project> {
+    return await this.projectModel.findByIdAndRemove(id).exec();
   }
 }
