@@ -38,6 +38,11 @@ export class MembersController {
     return this.membersService.getMemberData(email);
   }
 
+  @Post('updateTeam')
+  updateTeam(@Body('idTeam') idTeam: string, @Body('email') email: string) {
+    return this.membersService.updateTeam(idTeam, email);
+  }
+
   @Get('findMemberByEmail/:email/:idTeam')
   findMemberById(@Param('email') email: string, @Param('idTeam') idTeam: string) {
     return this.membersService.findMemberByEmail(email, idTeam);
@@ -52,4 +57,5 @@ export class MembersController {
   remove(@Param('id') id: string) {
     return this.membersService.remove(id);
   }
+  
 }
