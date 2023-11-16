@@ -5,6 +5,17 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose'
 import { TeamsService } from 'src/teams/teams.service';
 import { Teams } from 'src/teams/schema/team.schema';
+import axios from 'axios';
+
+const communicateWithUser = async ( email : string) => {
+  try {
+      const response =  axios.post(`${process.env.MS_USER}/user/getByMail`, {
+          email
+      });
+  } catch (error) {
+      console.log(error);
+  }
+};
 
 
 @Injectable()
@@ -16,8 +27,10 @@ export class MembersService {
   ) { }
 
   async addMemberTeam(membersDTO: MembersDTO): Promise<Members> {
-    const member = new this.membersModel(membersDTO);
-    return await member.save();
+    if(communicateWithUser(membersDTO.email)){
+      const member = new this.membersModel(membersDTO);
+      return await member.save();
+    }
   }
 
   async findAll(): Promise<Members[]> {
