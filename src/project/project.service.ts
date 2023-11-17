@@ -35,9 +35,7 @@ export class ProjectService {
     return await this.projectModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Project> {
-    return await this.projectModel.findOne({ _id: id }).exec();
-  }
+
 
   async update(id: string, projectDTO: ProjectDTO): Promise<Project> {
     return await this.projectModel.findByIdAndUpdate(id, projectDTO, { new: true }).exec();
@@ -66,6 +64,14 @@ export class ProjectService {
     const participesProjects = projects.map(projects => projects.nameProject);
     const idParticipesProjects = projects.map(projects => projects._id);
     return { participesProjects, idParticipesProjects };
+  }
+
+  /* Aqui pido los datos del project por id*/
+
+  async findOne(idProject: string) {
+    const dataProject = await this.projectModel.findOne({ idProject: idProject });
+
+    return { dataProject };
   }
 
 }

@@ -18,10 +18,7 @@ export class ProjectController {
     return this.projectService.findAll();
   }
 
-  @MessagePattern('findOneProject')
-  findOne(@Payload() id: string) {
-    return this.projectService.findOne(id);
-  }
+
 
   @MessagePattern('updateProject')
   update(@Payload() id: string, projectDTO: ProjectDTO) {
@@ -45,5 +42,11 @@ export class ProjectController {
   @Get('findAllParticipatedProjects/:email')
   findAllParticipatedProjects(@Param('email') email: string) {
     return this.projectService.findAllParticipatedProjects(email);
+  }
+  /* Aqui pido los datos del project por id*/
+
+  @Get('findOneProject/:idProject')
+  findOne(@Param() idProject: string) {
+    return this.projectService.findOne(idProject);
   }
 }
