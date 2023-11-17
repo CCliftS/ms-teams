@@ -51,8 +51,8 @@ export class ProjectController {
     return this.projectService.remove(id);
   }
 
-  @Delete('removeTeam')
-  removeTeam(@Body('id') id: string, @Body('idTeam') idTeam: string) {
+  @Delete('removeTeam:/id/:idTeam')
+  removeTeam(@Param('id') id: string, @Param('idTeam') idTeam: string) {
     return this.projectService.removeTeam(id, idTeam);
   }
 }
