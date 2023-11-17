@@ -8,21 +8,6 @@ import { ProjectDTO } from './dto/project.dto';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) { }
 
-  @Post('createProject')
-  async create(@Body() projectDTO: ProjectDTO) {
-    return this.projectService.create(projectDTO);
-  }
-
-  @Post('updateProject')
-  update(@Body('id') id: string, @Body('newName') newName: string) {
-    return this.projectService.update(id, newName);
-  }
-
-  @Post('addTeam')
-  addTeam(@Body('id') id: string, @Body('idTeam') idTeam: string) {
-    return this.projectService.addTeam(id, idTeam);
-  }
-
   @Get('findAllProject')
   findAll() {
     return this.projectService.findAll();
@@ -46,8 +31,28 @@ export class ProjectController {
     return this.projectService.findProjectById(idProject);
   }
 
+  @Post('createProject')
+  async create(@Body() projectDTO: ProjectDTO) {
+    return this.projectService.create(projectDTO);
+  }
+
+  @Post('updateProject')
+  update(@Body('id') id: string, @Body('newName') newName: string) {
+    return this.projectService.update(id, newName);
+  }
+
+  @Post('addTeam')
+  addTeam(@Body('id') id: string, @Body('idTeam') idTeam: string) {
+    return this.projectService.addTeam(id, idTeam);
+  }
+
   @Delete('removeProject')
   remove(@Payload() id: string) {
     return this.projectService.remove(id);
+  }
+
+  @Delete('removeTeam')
+  removeTeam(@Body('id') id: string, @Body('idTeam') idTeam: string) {
+    return this.projectService.removeTeam(id, idTeam);
   }
 }

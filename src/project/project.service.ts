@@ -37,8 +37,6 @@ export class ProjectService {
     return await this.projectModel.find().exec();
   }
 
-
-
   async update(id: string, newName: string): Promise<Project> {
     console.log(id);
     const project = await this.projectModel.findById({ _id: id });
@@ -83,5 +81,12 @@ export class ProjectService {
     const teamProjects = project.teams;
     const teamsNames = await this.teamsService.getTeamsNamesByIds(teamProjects);
     return { nameProject, teamProjects, teamsNames };
+  }
+
+  async removeTeam(id: string, idTeam: string) {
+    const project = await this.projectModel.findById(id);
+    if(project.teams.includes(idTeam)){
+      return await this.projectModel.findByIdAndUpdate(id, { $pull: { teams: idTeam } }, { new: true }).exec();
+    }
   }
 }

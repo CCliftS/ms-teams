@@ -18,6 +18,11 @@ export class MembersController {
     return this.membersService.getMemberTeamId(idTeam);
   }
 
+  @Get('findMemberByEmail/:email/:idTeam')
+  findMemberById(@Param('email') email: string, @Param('idTeam') idTeam: string) {
+    return this.membersService.findMemberByEmail(email, idTeam);
+  }
+
   @Post('findId')
   findId(@Body('idTeam') id: string) {
     return this.membersService.findId(id);
@@ -41,11 +46,6 @@ export class MembersController {
   @Post('updateTeam')
   updateTeam(@Body('idTeam') idTeam: string, @Body('email') email: string) {
     return this.membersService.updateTeam(idTeam, email);
-  }
-
-  @Get('findMemberByEmail/:email/:idTeam')
-  findMemberById(@Param('email') email: string, @Param('idTeam') idTeam: string) {
-    return this.membersService.findMemberByEmail(email, idTeam);
   }
 
   @Post('findTeamById')

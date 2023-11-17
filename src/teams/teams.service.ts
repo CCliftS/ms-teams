@@ -8,7 +8,6 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class TeamsService {
-
   constructor(
     @InjectModel(Teams.name) private teamsModel: Model<Teams>,
   ) { }
