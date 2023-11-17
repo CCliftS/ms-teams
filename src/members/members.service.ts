@@ -88,8 +88,9 @@ export class MembersService {
   async getMemberTeamId(idTeam: string) {
     const member = await this.membersModel.find({ idTeam: idTeam });
     const nameTeam = member.map(member => member.nameTeam);
+    const nameId = member.map(member => member._id);
     const TeamsEmails = member.map(member => member.email);
-    return { nameTeam, TeamsEmails };
+    return { nameTeam, TeamsEmails, nameId };
   }
 
 }
