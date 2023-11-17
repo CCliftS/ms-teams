@@ -52,8 +52,8 @@ export class MembersService {
     return this.membersModel.updateMany({ email: email }, { email: newEmail }, { new: true });
   }
 
-  async remove(id: string): Promise<Members> {
-    return await this.membersModel.findByIdAndRemove({ id: id });
+  async removeMember(id: string, idTeam:string): Promise<Members> {
+    return await this.membersModel.findOneAndDelete({ _id: id, idTeam:idTeam});
   }
 
   async updateRole(id: string, role: string) {

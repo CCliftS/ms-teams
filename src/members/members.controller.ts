@@ -53,9 +53,9 @@ export class MembersController {
     return this.membersService.findTeamById(id);
   }
 
-  @Delete('id')
-  remove(@Param('id') id: string) {
-    return this.membersService.remove(id);
+  @Delete('removeMember/:id/:idTeam')
+  remove(@Param('id') id: string, @Param('idTeam') idTeam: string) {
+    return this.membersService.removeMember(id, idTeam);
   }
   
 }
