@@ -47,4 +47,8 @@ export class TeamsService {
     return this.teamsModel.findOne({ _id: id });
   }
 
+  async getTeamsNamesByIds(teamsIds: string[]): Promise<string[]> {
+    const teams = await this.teamsModel.find({ _id: { $in: teamsIds } });
+    return teams.map(team => team.nameTeam);
+  }
 }

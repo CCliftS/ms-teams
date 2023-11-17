@@ -15,10 +15,6 @@ export class TeamsController {
     return this.teamsService.createTeam(teamDTO);
   }
 
-  @Delete('id')
-  remove(@Param('id') id: string) {
-    return this.teamsService.remove(id);
-  }
   @Post()
   async findTeamsByMemberIds(@Body() body: { memberIds: string[] }) {
     const { memberIds } = body;
@@ -30,9 +26,15 @@ export class TeamsController {
   findTeamById(@Body('id') id: string) {
     return this.teamsService.findTeamById(id);
   }
+
   @Post('updateName')
   updateName(@Body('newName') newName: string, @Body('id') id: string) {
     return this.teamsService.updateName(newName, id);
+  }
+
+  @Delete('id')
+  remove(@Param('id') id: string) {
+    return this.teamsService.remove(id);
   }
 
 }

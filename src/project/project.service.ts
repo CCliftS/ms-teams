@@ -21,8 +21,10 @@ export class ProjectService {
   }
 
   async addTeam(id: string, idTeam: string): Promise<Project> {
-    const team = this.teamsService.findTeamById(idTeam)
-    if (!team) {
+    const team = await this.teamsService.findTeamById(idTeam)
+    const teamsProject = await this.findProjectById(id);
+    if (team && !teamsProject.teamProjects.includes(idTeam)) {
+      console.log("entro");
       return await this.projectModel.findByIdAndUpdate(id, { $push: { teams: idTeam } }, { new: true }).exec();
     }
   }
@@ -75,12 +77,11 @@ export class ProjectService {
   }
 
   /* Aqui pido los datos del project por id*/
-
   async findProjectById(idProject: string) {
     const project = await this.projectModel.findById(idProject);
     const nameProject = project.nameProject;
     const teamProjects = project.teams;
-    return { nameProject, teamProjects };
+    const teamsNames = await this.teamsService.getTeamsNamesByIds(teamProjects);
+    return { nameProject, teamProjects, teamsNames };
   }
-
 }
