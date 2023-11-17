@@ -29,7 +29,7 @@ export class TeamsService {
 
   async updateName(newName: string, id: string): Promise<Teams> {
     const team = await this.teamsModel.findById({ _id: id });
-    
+
     if (!team) {
       throw new NotFoundException(`Team with ID ${id} not found`);
     }

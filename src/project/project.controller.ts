@@ -20,9 +20,9 @@ export class ProjectController {
 
 
 
-  @MessagePattern('updateProject')
-  update(@Payload() id: string, projectDTO: ProjectDTO) {
-    return this.projectService.update(id, projectDTO);
+  @Post('updateProject')
+  update(@Body('id') id: string, @Body('newName') newName: string) {
+    return this.projectService.update(id, newName);
   }
 
   @MessagePattern('removeProject')
@@ -46,7 +46,7 @@ export class ProjectController {
   /* Aqui pido los datos del project por id*/
 
   @Get('findOneProject/:idProject')
-  findOne(@Param() idProject: string) {
-    return this.projectService.findOne(idProject);
+  findProjectById(@Param() idProject: string) {
+    return this.projectService.findProjectById(idProject);
   }
 }

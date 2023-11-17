@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ProjectDTO } from './dto/project.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project } from './schema/project.schema';
@@ -37,8 +37,16 @@ export class ProjectService {
 
 
 
-  async update(id: string, projectDTO: ProjectDTO): Promise<Project> {
-    return await this.projectModel.findByIdAndUpdate(id, projectDTO, { new: true }).exec();
+  async update(id: string, newName: string): Promise<Project> {
+    console.log(id);
+    const project = await this.projectModel.findById({ _id: id });
+
+    if (!project) {
+      throw new NotFoundException(`Project with ID ${id} not found`);
+    }
+    project.nameProject = newName;
+    await project.save();
+    return project;
   }
 
   async remove(id: string): Promise<Project> {
@@ -68,10 +76,10 @@ export class ProjectService {
 
   /* Aqui pido los datos del project por id*/
 
-  async findOne(idProject: string) {
-    const dataProject = await this.projectModel.findOne({ idProject: idProject });
-
-    return { dataProject };
+  async findProjectById(idProject: string): Promise<Project> {
+    console.log(idProject);
+    const project = await this.projectModel.findById(idProject);
+    return project;
   }
 
 }

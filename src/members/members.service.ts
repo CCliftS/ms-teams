@@ -81,6 +81,7 @@ export class MembersService {
   }
 
   async findMemberByEmail(email: string, idTeam: string) {
+    console.log(idTeam);
     return this.membersModel.findOne({ email: email, idTeam: idTeam });
   }
 
