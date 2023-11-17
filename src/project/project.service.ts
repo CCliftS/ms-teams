@@ -76,10 +76,11 @@ export class ProjectService {
 
   /* Aqui pido los datos del project por id*/
 
-  async findProjectById(idProject: string): Promise<Project> {
-    console.log(idProject);
+  async findProjectById(idProject: string) {
     const project = await this.projectModel.findById(idProject);
-    return project;
+    const nameProject = project.nameProject;
+    const teamProjects = project.teams;
+    return { nameProject, teamProjects };
   }
 
 }

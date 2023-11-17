@@ -46,7 +46,7 @@ export class ProjectController {
   /* Aqui pido los datos del project por id*/
 
   @Get('findOneProject/:idProject')
-  findProjectById(@Param() idProject: string) {
+  findProjectById(@Param('idProject') idProject: string) {
     return this.projectService.findProjectById(idProject);
   }
 }
