@@ -27,8 +27,8 @@ export class TeamsController {
     return this.teamsService.findTeamById(id);
   }
 
-  @Post('updateName')
-  updateName(@Body('newName') newName: string, @Body('id') id: string) {
+  @Put('updateName/:id')
+  updateName(@Body('newName') newName: string, @Param('id') id: string) {
     return this.teamsService.updateName(newName, id);
   }
 

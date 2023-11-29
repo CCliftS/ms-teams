@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { MembersDTO } from './dto/members.dto';
 import { TeamsService } from 'src/teams/teams.service';
@@ -33,14 +33,14 @@ export class MembersController {
     return this.membersService.getTeamIfMember(email);
   }
 
+  @Get('findTeamById/:id')
+  findTeamById(@Param('id') id: string) {
+    return this.membersService.findTeamById(id);
+  }
+
   @Post('findId')
   findId(@Body('idTeam') id: string) {
     return this.membersService.findId(id);
-  }
-
-  @Post('updateMail')
-  updateMail(@Body('newEmail') newEmail: string, @Body('email') email: string) {
-    return this.membersService.updateMail(newEmail, email);
   }
 
   @Post('addMemberTeam')
@@ -53,14 +53,14 @@ export class MembersController {
     return this.membersService.getMemberData(email);
   }
 
-  @Post('updateTeam')
-  updateTeam(@Body('idTeam') idTeam: string, @Body('email') email: string) {
-    return this.membersService.updateTeam(idTeam, email);
+  @Put('updateTeam/:idTeam')
+  updateTeam(@Param('idTeam') idTeam: string, @Body('newName') newName: string) {
+    return this.membersService.updateTeam(idTeam, newName);
   }
 
-  @Post('findTeamById')
-  findTeamById(@Body('id') id: string) {
-    return this.membersService.findTeamById(id);
+  @Put('updateMail:/email')
+  updateMail(@Body('newEmail') newEmail: string, @Param('email') email: string) {
+    return this.membersService.updateMail(newEmail, email);
   }
 
   @Delete('removeMember/:id/:idTeam')
