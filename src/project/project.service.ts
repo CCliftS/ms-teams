@@ -16,7 +16,6 @@ export class ProjectService {
 
   async create(projectDTO: ProjectDTO): Promise<Project> {
     const project = new this.projectModel(projectDTO);
-    console.log(project);
     return project.save();
   }
 
@@ -24,7 +23,6 @@ export class ProjectService {
     const team = await this.teamsService.findTeamById(idTeam)
     const teamsProject = await this.findProjectById(id);
     if (team && !teamsProject.teamProjects.includes(idTeam)) {
-      console.log("entro");
       return await this.projectModel.findByIdAndUpdate(id, { $push: { teams: idTeam } }, { new: true }).exec();
     }
   }
@@ -33,12 +31,7 @@ export class ProjectService {
     return await this.projectModel.findByIdAndUpdate(id, { $push: { members: idMember } }, { new: true }).exec();
   }
 
-  async findAll(): Promise<Project[]> {
-    return await this.projectModel.find().exec();
-  }
-
   async update(id: string, newName: string): Promise<Project> {
-    console.log(id);
     const project = await this.projectModel.findById({ _id: id });
 
     if (!project) {
@@ -49,8 +42,15 @@ export class ProjectService {
     return project;
   }
 
-  async remove(id: string): Promise<Project> {
-    return await this.projectModel.findByIdAndRemove(id).exec();
+  async updateDescription(id: string, newDescription: string): Promise<Project> {
+    const project = await this.projectModel.findById({ _id: id });
+
+    if (!project) {
+      throw new NotFoundException(`Project with ID ${id} not found`);
+    }
+    project.description = newDescription;
+    await project.save();
+    return project;
   }
 
   /* Aqui pido los projects del Owner*/
@@ -83,10 +83,18 @@ export class ProjectService {
     return { nameProject, teamProjects, teamsNames };
   }
 
-  async removeTeam(id: string, idTeam: string) {
+  async findAll(): Promise<Project[]> {
+    return await this.projectModel.find().exec();
+  }
+
+  async removeTeam(id: string, idTeam: string): Promise<Project> {
     const project = await this.projectModel.findById(id);
     if(project.teams.includes(idTeam)){
       return await this.projectModel.findByIdAndUpdate(id, { $pull: { teams: idTeam } }, { new: true }).exec();
     }
+  }
+
+  async remove(id: string): Promise<Project> {
+    return await this.projectModel.findByIdAndRemove(id).exec();
   }
 }

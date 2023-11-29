@@ -17,15 +17,6 @@ export class TeamsService {
     return await team.save();
   }
 
-  async findAll(): Promise<Teams[]> {
-    return await this.teamsModel.find().exec();
-  }
-
-
-  async findTeamsByMemberIds(memberIds: string[]): Promise<Teams[]> {
-    return await this.teamsModel.find({ members: { $in: memberIds } });
-  }
-
   async updateName(newName: string, id: string): Promise<Teams> {
     const team = await this.teamsModel.findById({ _id: id });
 
@@ -38,16 +29,24 @@ export class TeamsService {
     return team;
   }
 
-  async remove(id: string): Promise<Teams> {
-    return await this.teamsModel.findByIdAndDelete({ _id: id });
+  async getTeamsNamesByIds(teamsIds: string[]): Promise<string[]> {
+    const teams = await this.teamsModel.find({ _id: { $in: teamsIds } });
+    return teams.map(team => team.nameTeam);
   }
 
   async findTeamById(id: string): Promise<Teams> {
     return this.teamsModel.findOne({ _id: id });
   }
 
-  async getTeamsNamesByIds(teamsIds: string[]): Promise<string[]> {
-    const teams = await this.teamsModel.find({ _id: { $in: teamsIds } });
-    return teams.map(team => team.nameTeam);
+  async findAll(): Promise<Teams[]> {
+    return await this.teamsModel.find().exec();
+  }
+
+  async findTeamsByMemberIds(memberIds: string[]): Promise<Teams[]> {
+    return await this.teamsModel.find({ members: { $in: memberIds } });
+  }
+  
+  async remove(id: string): Promise<Teams> {
+    return await this.teamsModel.findByIdAndDelete({ _id: id });
   }
 }

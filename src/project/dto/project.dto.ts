@@ -11,4 +11,8 @@ export class ProjectDTO {
 
     @IsNotEmpty()
     teams: string[];
+
+    @IsNotEmpty()
+    @IsString()
+    description: string;
 }

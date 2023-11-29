@@ -1,5 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectDTO } from './dto/project.dto';
 
@@ -36,9 +35,14 @@ export class ProjectController {
     return this.projectService.create(projectDTO);
   }
 
-  @Post('updateProject')
-  update(@Body('id') id: string, @Body('newName') newName: string) {
+  @Put('updateProject/:id')
+  update(@Param('id') id: string, @Body('newName') newName: string) {
     return this.projectService.update(id, newName);
+  }
+
+  @Put('updateDescription/:id')
+  updateDescription(@Param('id') id: string, @Body('newDescription') newDescription: string) {
+    return this.projectService.updateDescription(id, newDescription);
   }
 
   @Post('addTeam')
@@ -46,8 +50,8 @@ export class ProjectController {
     return this.projectService.addTeam(id, idTeam);
   }
 
-  @Delete('removeProject')
-  remove(@Payload() id: string) {
+  @Delete('removeProject/:id')
+  remove(@Param('id') id: string) {
     return this.projectService.remove(id);
   }
 

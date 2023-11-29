@@ -23,6 +23,16 @@ export class MembersController {
     return this.membersService.findMemberByEmail(email, idTeam);
   }
 
+  @Get('getTeamIfAdmin/:email')
+  getTeamIfAdmin(@Param('email') email: string) {
+    return this.membersService.getTeamIfAdmin(email);
+  }
+
+  @Get('getTeamIfMember/:email')
+  getTeamIfMember(@Param('email') email: string) {
+    return this.membersService.getTeamIfMember(email);
+  }
+
   @Post('findId')
   findId(@Body('idTeam') id: string) {
     return this.membersService.findId(id);

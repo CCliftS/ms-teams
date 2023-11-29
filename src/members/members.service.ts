@@ -6,6 +6,7 @@ import { Model } from 'mongoose'
 import { TeamsService } from 'src/teams/teams.service';
 import { Teams } from 'src/teams/schema/team.schema';
 import axios from 'axios';
+import { ObjectId } from 'mongodb';
 
 const communicateWithUser = async (email: string) => {
   try {
@@ -40,32 +41,23 @@ export class MembersService {
     }
   }
 
-  async findAll(): Promise<Members[]> {
-    return this.membersModel.find().exec();
-  }
-
-  async findId(idTeam: string): Promise<Members> {
-    return this.membersModel.findOne({ idTeam: idTeam });
-  }
-
+    // FALTA EL PROMISE
   async updateMail(newEmail: string, email: string) {
     return this.membersModel.updateMany({ email: email }, { email: newEmail }, { new: true });
   }
 
-  async removeMember(id: string, idTeam:string): Promise<Members> {
-    return await this.membersModel.findOneAndDelete({ _id: id, idTeam:idTeam});
-  }
-
-  async updateRole(id: string, role: string) {
+  
+  async updateRole(id: string, role: string): Promise<Members> {
     return await this.membersModel.findByIdAndUpdate(id, { role: role }, { new: true });
   }
 
+  // FALTA EL PROMISE
   async updateTeam(newName: string, idTeam: string) {
     this.teamsService.updateName(newName, idTeam);
     return await this.membersModel.updateMany({ idTeam: idTeam }, { nameTeam: newName }, { new: true });
   }
 
-  async getMemberData(email: string) {
+  async getMemberData(email: string): Promise<{ teamsName: string[], teamsId: string[] }> {
     const members = await this.membersModel.find({ email: email });
     const teamsName = members.map(members => members.nameTeam);
     const teamsId = members.map(members => members.idTeam);
@@ -76,16 +68,7 @@ export class MembersService {
     return this.membersModel.find({ idTeam: id });
   }
 
-  async findTeamById(id: string): Promise<Teams> {
-    return this.teamsService.findTeamById(id);
-  }
-
-  async findMemberByEmail(email: string, idTeam: string) {
-    console.log(idTeam);
-    return this.membersModel.findOne({ email: email, idTeam: idTeam });
-  }
-
-  async getMemberTeamId(idTeam: string) {
+  async getMemberTeamId(idTeam: string): Promise<{ nameTeam: string[], TeamsEmails: string[], nameId: ObjectId[] }> {
     const member = await this.membersModel.find({ idTeam: idTeam });
     const nameTeam = member.map(member => member.nameTeam);
     const nameId = member.map(member => member._id);
@@ -93,4 +76,51 @@ export class MembersService {
     return { nameTeam, TeamsEmails, nameId };
   }
 
+  async getTeamIfAdmin(email: string):Promise<{teams: string[], teamsId: string[]}> {
+    const members = await this.membersModel.find({email: email});
+    const teams = new Array();
+    const teamsId = new Array();
+    
+    (members).map(member => {
+      if (member.role === 'administrador') {
+        teams.push(member.nameTeam);
+        teamsId.push(member.idTeam);
+      }
+    });
+    return { teams, teamsId };
+  }
+
+  async getTeamIfMember(email: string):Promise<{teams: string[], teamsId: string[]}> {
+    const members = await this.membersModel.find({email: email});
+    const teams = new Array();
+    const teamsId = new Array();
+    
+    (members).map(member => {
+      if (member.role != 'administrador') {
+        teams.push(member.nameTeam);
+        teamsId.push(member.idTeam);
+      }
+    });
+    return { teams, teamsId };
+  }
+
+  async findTeamById(id: string): Promise<Teams> {
+    return this.teamsService.findTeamById(id);
+  }
+
+  async findMemberByEmail(email: string, idTeam: string): Promise<Members> {
+    return this.membersModel.findOne({ email: email, idTeam: idTeam });
+  }
+
+  async findAll(): Promise<Members[]> {
+    return this.membersModel.find().exec();
+  }
+
+  async findId(idTeam: string): Promise<Members> {
+    return this.membersModel.findOne({ idTeam: idTeam });
+  }
+
+  async removeMember(email: string, idTeam:string): Promise<Members> {
+    return await this.membersModel.findOneAndDelete({ email: email, idTeam:idTeam});
+  }
 }
