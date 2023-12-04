@@ -5,6 +5,7 @@ import { Project } from './schema/project.schema';
 import { Model } from 'mongoose';
 import { TeamsService } from 'src/teams/teams.service';
 import { MembersService } from 'src/members/members.service';
+import axios from 'axios';
 
 @Injectable()
 export class ProjectService {
@@ -67,11 +68,12 @@ export class ProjectService {
 
   async findAllParticipatedProjects(email: string) {
     const teamsData = await this.membersService.getMemberData(email);
-    const teamsMember = teamsData.teamsId;
-    const projects = await this.projectModel.find({ teams: { $in: teamsMember } });
-    const participesProjects = projects.map(projects => projects.nameProject);
-    const idParticipesProjects = projects.map(projects => projects._id);
-    return { participesProjects, idParticipesProjects };
+    const teamsId = teamsData.teamsId;
+    const projects = await this.projectModel.find({ teams: { $in: teamsId } });
+    projects.filter(projects => projects.idOwner !== email);
+    const participedProjects = projects.map(projects => projects.nameProject);
+    const idParticipedProjects = projects.map(projects => projects._id);
+    return { participedProjects, idParticipedProjects };
   }
 
   /* Aqui pido los datos del project por id*/

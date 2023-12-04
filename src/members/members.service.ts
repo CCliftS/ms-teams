@@ -104,6 +104,11 @@ export class MembersService {
     return { teams, teamsId };
   }
 
+  async getTeamRole(email: string, idTeam: string): Promise<string> {
+    const member = await this.membersModel.findOne({ email: email, idTeam: idTeam });
+    return member.role;
+  }
+
   async findTeamById(id: string): Promise<Teams> {
     return this.teamsService.findTeamById(id);
   }

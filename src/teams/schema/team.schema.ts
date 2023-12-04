@@ -9,5 +9,8 @@ export type TeamsDocument = HydratedDocument<Teams>;
 export class Teams {
     @Prop({ required: true })
     nameTeam: string;
+
+    @Prop({required: true})
+    roles: string[];
 }
 export const TeamsSchema = SchemaFactory.createForClass(Teams);

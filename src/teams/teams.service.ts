@@ -17,6 +17,15 @@ export class TeamsService {
     return await team.save();
   }
 
+  async createRole(id: string, role: string): Promise<Teams> {
+    const team = await this.teamsModel.findById({ _id: id });
+    if(!team){
+      throw new NotFoundException(`Team with ID ${id} not found`);
+    }
+    team.roles.push(role);
+    return team.save();
+  }
+
   async updateName(newName: string, id: string): Promise<Teams> {
     const team = await this.teamsModel.findById({ _id: id });
 
