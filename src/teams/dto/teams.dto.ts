@@ -4,4 +4,8 @@ export class TeamsDTO {
     @IsNotEmpty()
     @IsString()
     nameTeam: string;
+
+    @IsNotEmpty()
+    @IsString()
+    roles: string[];
 }

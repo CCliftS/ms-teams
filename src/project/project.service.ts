@@ -70,9 +70,9 @@ export class ProjectService {
     const teamsData = await this.membersService.getMemberData(email);
     const teamsId = teamsData.teamsId;
     const projects = await this.projectModel.find({ teams: { $in: teamsId } });
-    projects.filter(projects => projects.idOwner !== email);
-    const participedProjects = projects.map(projects => projects.nameProject);
-    const idParticipedProjects = projects.map(projects => projects._id);
+    const filtredprojects = projects.filter(projects => projects.idOwner !== email);
+    const participedProjects = filtredprojects.map(filtredprojects => filtredprojects.nameProject);
+    const idParticipedProjects = filtredprojects.map(filtredprojects => filtredprojects._id);
     return { participedProjects, idParticipedProjects };
   }
 
