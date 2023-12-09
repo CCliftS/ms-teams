@@ -22,8 +22,8 @@ export class TeamsController {
     return teams;
   }
 
-  @Post('findTeamById')
-  findTeamById(@Body('id') id: string) {
+  @Get('findTeamById/:id')
+  findTeamById(@Param('id') id: string) {
     return this.teamsService.findTeamById(id);
   }
 

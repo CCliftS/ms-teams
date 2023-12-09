@@ -5,7 +5,6 @@ import { Project } from './schema/project.schema';
 import { Model } from 'mongoose';
 import { TeamsService } from 'src/teams/teams.service';
 import { MembersService } from 'src/members/members.service';
-import axios from 'axios';
 
 @Injectable()
 export class ProjectService {

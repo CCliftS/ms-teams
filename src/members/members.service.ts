@@ -10,9 +10,7 @@ import { ObjectId } from 'mongodb';
 
 const communicateWithUser = async (email: string) => {
   try {
-    const response = axios.post(`${process.env.MS_USER}/user/getByMail`, {
-      email
-    });
+    const response = axios.get(`${process.env.MS_USER}/user/getByMail/${email}`);
   } catch (error) {
     console.log(error);
   }

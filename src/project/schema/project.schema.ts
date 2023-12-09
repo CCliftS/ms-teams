@@ -13,7 +13,7 @@ export class Project {
     @Prop({ type: [String], required: true })
     teams: string[];
 
-    @Prop({ required: false, maxlength: 150 })
+    @Prop({ required: false })
     description: string;
 }
 

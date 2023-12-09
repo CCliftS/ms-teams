@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString, Length } from "class-validator";
 
 export class ProjectDTO {
     @IsNotEmpty()
@@ -14,5 +14,6 @@ export class ProjectDTO {
 
     @IsNotEmpty()
     @IsString()
+    @Length(0, 150)
     description: string;
 }
