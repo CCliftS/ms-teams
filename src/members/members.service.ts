@@ -6,7 +6,7 @@ import { Model } from 'mongoose'
 import { TeamsService } from 'src/teams/teams.service';
 import { Teams } from 'src/teams/schema/team.schema';
 import axios from 'axios';
-import { ObjectId } from 'mongodb';
+import { ObjectId, UpdateResult } from 'mongodb';
 
 const communicateWithUser = async (email: string) => {
   try {
@@ -40,7 +40,7 @@ export class MembersService {
   }
 
     // FALTA EL PROMISE
-  async updateMail(newEmail: string, email: string) {
+  async updateMail(newEmail: string, email: string): Promise<UpdateResult> {
     return this.membersModel.updateMany({ email: email }, { email: newEmail }, { new: true });
   }
 
@@ -50,7 +50,7 @@ export class MembersService {
   }
 
   // FALTA EL PROMISE
-  async updateTeam(newName: string, idTeam: string) {
+  async updateTeam(newName: string, idTeam: string): Promise<UpdateResult> {
     this.teamsService.updateName(newName, idTeam);
     return await this.membersModel.updateMany({ idTeam: idTeam }, { nameTeam: newName }, { new: true });
   }
@@ -125,5 +125,9 @@ export class MembersService {
 
   async removeMember(email: string, idTeam:string): Promise<Members> {
     return await this.membersModel.findOneAndDelete({ email: email, idTeam:idTeam});
+  }
+
+  async getMemberByEmailAndTeam(email: string, idTeam: string): Promise<Members> {
+    return await this.membersModel.findOne({ email: email, idTeam: idTeam });
   }
 }
