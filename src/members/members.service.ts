@@ -26,10 +26,8 @@ export class MembersService {
   ) { }
 
   async addMemberTeam(membersDTO: MembersDTO): Promise<Members> {
-
     const teamMembers = await this.getMemberTeamId(membersDTO.idTeam);
     const mm = teamMembers.TeamsEmails;
-
     if (communicateWithUser && !mm.includes(membersDTO.email)) {
       const member = new this.membersModel(membersDTO);
       return await member.save();
@@ -39,17 +37,17 @@ export class MembersService {
     }
   }
 
-  // FALTA EL PROMISE
+
   async updateMail(newEmail: string, email: string): Promise<UpdateResult> {
     return this.membersModel.updateMany({ email: email }, { email: newEmail }, { new: true });
   }
 
 
-  async updateRole(id: string, role: string): Promise<Members> {
-    return await this.membersModel.findByIdAndUpdate(id, { role: role }, { new: true });
+  async updateRole(email: string, idTeam:string, role: string): Promise<Members> {
+    return await this.membersModel.findOneAndUpdate({email: email, idTeam: idTeam}, { role: role }, { new: true });
   }
 
-  // FALTA EL PROMISE
+
   async updateTeam(newName: string, idTeam: string): Promise<UpdateResult> {
     this.teamsService.updateName(newName, idTeam);
     return await this.membersModel.updateMany({ idTeam: idTeam }, { nameTeam: newName }, { new: true });
@@ -93,7 +91,6 @@ export class MembersService {
     const members = await this.membersModel.find({ email: email });
     const teams = new Array();
     const teamsId = new Array();
-
     (members).map(member => {
       if (member.role != 'administrador') {
         teams.push(member.nameTeam);

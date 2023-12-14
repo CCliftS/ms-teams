@@ -63,7 +63,12 @@ export class MembersController {
     return this.membersService.updateTeam(idTeam, newName);
   }
 
-  @Put('updateMail:/email')
+  @Put('updateRole/:email/:idTeam')
+  updateRole(@Param('email') email: string, @Param('idTeam') idTeam:string, @Body('role') role: string) {
+    return this.membersService.updateRole(email,idTeam,role);
+  }
+
+  @Put('updateMail/:email')
   updateMail(@Body('newEmail') newEmail: string, @Param('email') email: string) {
     return this.membersService.updateMail(newEmail, email);
   }
