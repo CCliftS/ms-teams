@@ -39,12 +39,12 @@ export class MembersService {
     }
   }
 
-    // FALTA EL PROMISE
+  // FALTA EL PROMISE
   async updateMail(newEmail: string, email: string): Promise<UpdateResult> {
     return this.membersModel.updateMany({ email: email }, { email: newEmail }, { new: true });
   }
 
-  
+
   async updateRole(id: string, role: string): Promise<Members> {
     return await this.membersModel.findByIdAndUpdate(id, { role: role }, { new: true });
   }
@@ -66,19 +66,20 @@ export class MembersService {
     return this.membersModel.find({ idTeam: id });
   }
 
-  async getMemberTeamId(idTeam: string): Promise<{ nameTeam: string[], TeamsEmails: string[], nameId: ObjectId[] }> {
+  async getMemberTeamId(idTeam: string): Promise<{ nameTeam: string[], TeamsEmails: string[], nameId: ObjectId[], memberRole: string[] }> {
     const member = await this.membersModel.find({ idTeam: idTeam });
     const nameTeam = member.map(member => member.nameTeam);
     const nameId = member.map(member => member._id);
+    const memberRole = member.map(member => member.role);
     const TeamsEmails = member.map(member => member.email);
-    return { nameTeam, TeamsEmails, nameId };
+    return { nameTeam, TeamsEmails, nameId, memberRole };
   }
 
-  async getTeamIfAdmin(email: string):Promise<{teams: string[], teamsId: string[]}> {
-    const members = await this.membersModel.find({email: email});
+  async getTeamIfAdmin(email: string): Promise<{ teams: string[], teamsId: string[] }> {
+    const members = await this.membersModel.find({ email: email });
     const teams = new Array();
     const teamsId = new Array();
-    
+
     (members).map(member => {
       if (member.role === 'administrador') {
         teams.push(member.nameTeam);
@@ -88,11 +89,11 @@ export class MembersService {
     return { teams, teamsId };
   }
 
-  async getTeamIfMember(email: string):Promise<{teams: string[], teamsId: string[]}> {
-    const members = await this.membersModel.find({email: email});
+  async getTeamIfMember(email: string): Promise<{ teams: string[], teamsId: string[] }> {
+    const members = await this.membersModel.find({ email: email });
     const teams = new Array();
     const teamsId = new Array();
-    
+
     (members).map(member => {
       if (member.role != 'administrador') {
         teams.push(member.nameTeam);
@@ -123,8 +124,8 @@ export class MembersService {
     return this.membersModel.findOne({ idTeam: idTeam });
   }
 
-  async removeMember(email: string, idTeam:string): Promise<Members> {
-    return await this.membersModel.findOneAndDelete({ email: email, idTeam:idTeam});
+  async removeMember(email: string, idTeam: string): Promise<Members> {
+    return await this.membersModel.findOneAndDelete({ email: email, idTeam: idTeam });
   }
 
   async getMemberByEmailAndTeam(email: string, idTeam: string): Promise<Members> {
