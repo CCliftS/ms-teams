@@ -10,12 +10,19 @@ import { ObjectId, UpdateResult } from 'mongodb';
 
 const communicateWithUser = async (email: string) => {
   try {
-    const response = axios.get(`${process.env.MS_USER}/user/getByMail/${email}`);
+    const response = await axios.get(`${process.env.MS_USER}/user/getByMail/${email}`);
   } catch (error) {
     console.log(error);
   }
 };
 
+const deleteTeamTask = async (idTeam: string) => {
+  try {
+    const response = await axios.delete(`${process.env.MS_TASK}/Tasks/deleteTeamTasks/${idTeam}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 @Injectable()
 export class MembersService {
@@ -127,5 +134,22 @@ export class MembersService {
 
   async removeMember(email: string, idTeam: string): Promise<Members> {
     return await this.membersModel.findOneAndDelete({ email: email, idTeam: idTeam });
+  }
+
+  async deleteAcount(email: string): Promise<void> {
+    if(await this.membersModel.findOne({email: email, role: 'administrador'})){
+      throw new HttpException('No puede eliminar si es administrador de un equipo', HttpStatus.BAD_REQUEST);
+    }
+    else{
+      if(this.membersModel.find({email: email})){
+        await this.membersModel.deleteMany({ email: email });
+      }
+    }
+  }
+
+  async deleteTeam(idTeam: string): Promise<void> {
+    await deleteTeamTask(idTeam);
+    await this.membersModel.deleteMany({ idTeam: idTeam });
+    await this.teamsService.remove(idTeam);
   }
 }

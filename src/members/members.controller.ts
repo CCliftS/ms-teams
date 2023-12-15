@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { MembersDTO } from './dto/members.dto';
-import { TeamsService } from 'src/teams/teams.service';
 
 @Controller('Member')
 export class MembersController {
@@ -78,4 +77,13 @@ export class MembersController {
     return this.membersService.removeMember(id, idTeam);
   }
   
+  @Delete('deleteAcount/:email')
+  deleteAcount(@Param('email') email: string) {
+    return this.membersService.deleteAcount(email);
+  }
+
+  @Delete('deleteTeam/:idTeam')
+  deleteTeam(@Param('idTeam') idTeam: string) {
+    return this.membersService.deleteTeam(idTeam);
+  }
 }

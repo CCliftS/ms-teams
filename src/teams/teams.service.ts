@@ -46,12 +46,11 @@ export class TeamsService {
     return await this.teamsModel.find({ _id: { $in: ids } });
   }
 
-
   async findTeamsByMemberIds(memberIds: string[]): Promise<Teams[]> {
     return await this.teamsModel.find({ members: { $in: memberIds } });
   }
   
-  async remove(id: string): Promise<Teams> {
-    return await this.teamsModel.findByIdAndDelete({ _id: id });
+  async remove(id: string): Promise<void> {
+    await this.teamsModel.findByIdAndDelete({ _id: id });
   }
 }
