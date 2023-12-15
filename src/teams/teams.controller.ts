@@ -27,6 +27,13 @@ export class TeamsController {
     return this.teamsService.findTeamById(id);
   }
 
+  @Get('findTeamsByIds/:ids')
+  async findTeamsByIds(@Param('ids') ids: string) {
+    const idArray = ids.split(',')
+    const teams = await this.teamsService.findTeamsByIds(idArray);
+    return teams;
+  }
+
   @Put('updateName/:id')
   updateName(@Body('newName') newName: string, @Param('id') id: string) {
     return this.teamsService.updateName(newName, id);

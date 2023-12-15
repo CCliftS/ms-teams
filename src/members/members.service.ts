@@ -105,6 +105,10 @@ export class MembersService {
     return member.role;
   }
 
+  async getMemberByEmailAndTeam(email: string, idTeam: string): Promise<Members> {
+    return await this.membersModel.findOne({ email: email, idTeam: idTeam });
+  }
+
   async findTeamById(id: string): Promise<Teams> {
     return this.teamsService.findTeamById(id);
   }
@@ -123,9 +127,5 @@ export class MembersService {
 
   async removeMember(email: string, idTeam: string): Promise<Members> {
     return await this.membersModel.findOneAndDelete({ email: email, idTeam: idTeam });
-  }
-
-  async getMemberByEmailAndTeam(email: string, idTeam: string): Promise<Members> {
-    return await this.membersModel.findOne({ email: email, idTeam: idTeam });
   }
 }
