@@ -53,6 +53,11 @@ export class MembersController {
     return this.membersService.getMemberByEmailAndTeam(email, idTeam);
   }
 
+  @Get('getIfAdmin/:email')
+  getIfAdmin(@Param('email') email: string) {
+    return this.membersService.getIfAdmin(email);
+  }
+
   @Post('addMemberTeam')
   async addMemberTeam(@Body() membersDTO: MembersDTO) {
     return this.membersService.addMemberTeam(membersDTO);

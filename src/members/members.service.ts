@@ -34,16 +34,15 @@ export class MembersService {
     private readonly teamsService: TeamsService
   ) { }
 
-  async createTeam(membersDTO:Members,teamDTO: TeamsDTO): Promise<Members> {
-    const team = this.teamsService.createTeam(teamDTO);
-    const member = new this.membersModel(membersDTO);
-    return await member.save();
+  async createTeam(membersDTO:Members,teamDTO: TeamsDTO) {
+    await this.teamsService.createTeam(teamDTO);
+    await this.addMemberTeam(membersDTO);
   }
 
   async addMemberTeam(membersDTO: MembersDTO): Promise<Members> {
     const teamMembers = await this.getMemberTeamId(membersDTO.idTeam);
-    const mm = teamMembers.TeamsEmails;
-    if (communicateWithUser && !mm.includes(membersDTO.email)) {
+    const membersmails = teamMembers.TeamsEmails;
+    if (communicateWithUser && !membersmails.includes(membersDTO.email)) {
       const member = new this.membersModel(membersDTO);
       return await member.save();
     }
@@ -149,7 +148,7 @@ export class MembersService {
       throw new HttpException('No puede eliminar si es administrador de un equipo', HttpStatus.BAD_REQUEST);
     }
     else{
-      if(this.membersModel.find({email: email})){
+      if((await this.membersModel.find({email: email})).length > 0){
         await this.membersModel.deleteMany({ email: email });
       }
     }
@@ -163,5 +162,11 @@ export class MembersService {
     }
     await this.teamsService.remove(idTeam);
     console.log('Team deleted');
+  }
+
+  async getIfAdmin(email: string): Promise<boolean> {
+    if(await this.membersModel.findOne({email: email, role: 'administrador'})){
+      return true;
+    }
   }
 }
