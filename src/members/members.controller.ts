@@ -1,11 +1,17 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { MembersDTO } from './dto/members.dto';
+import { TeamsDTO } from 'src/teams/dto/teams.dto';
 
 @Controller('Member')
 export class MembersController {
   constructor(private readonly membersService: MembersService,
   ) { }
+
+  @Post('createTeam')
+  createTeam(@Body() membersDTO: MembersDTO, @Body() teamsDto: TeamsDTO){
+    return this.membersService.createTeam(membersDTO,teamsDto);
+  }
 
   @Get()
   findAll() {

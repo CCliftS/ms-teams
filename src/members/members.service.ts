@@ -7,6 +7,7 @@ import { TeamsService } from 'src/teams/teams.service';
 import { Teams } from 'src/teams/schema/team.schema';
 import axios from 'axios';
 import { ObjectId, UpdateResult } from 'mongodb';
+import { TeamsDTO } from 'src/teams/dto/teams.dto';
 
 const communicateWithUser = async (email: string) => {
   try {
@@ -24,6 +25,7 @@ const deleteTeamTask = async (idTeam: string) => {
   }
 }
 
+
 @Injectable()
 export class MembersService {
 
@@ -31,6 +33,12 @@ export class MembersService {
     @InjectModel(Members.name) private membersModel: Model<Members>,
     private readonly teamsService: TeamsService
   ) { }
+
+  async createTeam(membersDTO:Members,teamDTO: TeamsDTO): Promise<Members> {
+    const team = this.teamsService.createTeam(teamDTO);
+    const member = new this.membersModel(membersDTO);
+    return await member.save();
+  }
 
   async addMemberTeam(membersDTO: MembersDTO): Promise<Members> {
     const teamMembers = await this.getMemberTeamId(membersDTO.idTeam);
@@ -148,8 +156,12 @@ export class MembersService {
   }
 
   async deleteTeam(idTeam: string): Promise<void> {
+    
     await deleteTeamTask(idTeam);
-    await this.membersModel.deleteMany({ idTeam: idTeam });
+    if(await this.membersModel.findOne({ idTeam: idTeam })){
+      await this.membersModel.deleteMany({ idTeam: idTeam });
+    }
     await this.teamsService.remove(idTeam);
+    console.log('Team deleted');
   }
 }

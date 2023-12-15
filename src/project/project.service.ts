@@ -95,7 +95,13 @@ export class ProjectService {
     }
   }
 
-  async remove(id: string): Promise<Project> {
-    return await this.projectModel.findByIdAndRemove(id).exec();
+  async remove(id: string): Promise<void> {
+    const project = this.projectModel.findById(id);
+    if((await project).teams.length == 0){
+      await this.projectModel.findByIdAndRemove(id).exec();
+    }
+    else{
+      throw new NotFoundException(`Elimine a los equipos para eliminar el proyecto`);
+    }
   }
 }
