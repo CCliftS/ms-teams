@@ -5,6 +5,7 @@ import { Project } from './schema/project.schema';
 import { Model } from 'mongoose';
 import { TeamsService } from 'src/teams/teams.service';
 import { MembersService } from 'src/members/members.service';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class ProjectService {
@@ -55,7 +56,7 @@ export class ProjectService {
 
   /* Aqui pido los projects del Owner*/
 
-  async findProjectOwner(idOwner: string) {
+  async findProjectOwner(idOwner: string): Promise<{nameProjects: string[], idProjects: ObjectId[], teamProjects: string[][]}> {
     const project = await this.projectModel.find({ idOwner: idOwner });
     const nameProjects = project.map(project => project.nameProject);
     const idProjects = project.map(project => project._id);
@@ -65,7 +66,7 @@ export class ProjectService {
 
   /* GET de los proyectos asociados al usuario (No owner) */
 
-  async findAllParticipatedProjects(email: string) {
+  async findAllParticipatedProjects(email: string): Promise<{participedProjects: string[], idParticipedProjects: ObjectId[]}> {
     const teamsData = await this.membersService.getMemberData(email);
     const teamsId = teamsData.teamsId;
     const projects = await this.projectModel.find({ teams: { $in: teamsId } });
@@ -76,7 +77,7 @@ export class ProjectService {
   }
 
   /* Aqui pido los datos del project por id*/
-  async findProjectById(idProject: string) {
+  async findProjectById(idProject: string): Promise<{ nameProject: string, teamProjects: string[], teamsNames: string[] }> {
     const project = await this.projectModel.findById(idProject);
     const nameProject = project.nameProject;
     const teamProjects = project.teams;
