@@ -6,6 +6,16 @@ import { Model } from 'mongoose';
 import { TeamsService } from 'src/teams/teams.service';
 import { MembersService } from 'src/members/members.service';
 import { ObjectId } from 'mongodb';
+import axios from 'axios';
+
+const deleteTeamTasks = async (idTeam: string) => {
+  try {
+    const response = await axios.delete(`${process.env.MS_TASK}/Tasks/deleteTeamTasks/${idTeam}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 @Injectable()
 export class ProjectService {
@@ -92,16 +102,20 @@ export class ProjectService {
   async removeTeam(id: string, idTeam: string): Promise<Project> {
     const project = await this.projectModel.findById(id);
     if(project.teams.includes(idTeam)){
+      await deleteTeamTasks(idTeam);
       return await this.projectModel.findByIdAndUpdate(id, { $pull: { teams: idTeam } }, { new: true }).exec();
     }
   }
 
-  async remove(id: string): Promise<void> {
+  async removeProject(id: string): Promise<void> {
     const project = this.projectModel.findById(id);
+    console.log(id);
     if((await project).teams.length == 0){
-      await this.projectModel.findByIdAndRemove(id).exec();
+      console.log("PROYECTO ELIMINADO");
+      (await this.projectModel.findByIdAndRemove(id).exec()).save();
     }
     else{
+      console.log("ERROR");
       throw new NotFoundException(`Elimine a los equipos para eliminar el proyecto`);
     }
   }
